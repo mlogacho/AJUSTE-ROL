@@ -615,8 +615,7 @@ const renderResults = () => {
                 return t ? `${idx + 1}. ${t.label}` : '';
               }
             },
-            grid: { color: 'rgba(53, 92, 125, 0.05)' },
-            reverse: true
+            grid: { color: 'rgba(53, 92, 125, 0.05)' }
           }
         },
         plugins: {
