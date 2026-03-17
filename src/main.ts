@@ -1,5 +1,7 @@
 import './style.css'
 import Chart from 'chart.js/auto'
+import { jsPDF } from 'jspdf'
+import html2canvas from 'html2canvas'
 
 // Project data
 const projects = [
@@ -387,6 +389,56 @@ const renderResults = () => {
     }
   }
 
+  const downloadResultsPDF = async () => {
+    const btn = document.getElementById('download-pdf') as HTMLButtonElement;
+    const originalText = btn.innerText;
+    btn.innerText = 'Generando PDF...';
+    btn.disabled = true;
+
+    try {
+      const element = document.getElementById('survey-container')!;
+      // Hide buttons for screenshot
+      const buttons = element.querySelectorAll('button');
+      buttons.forEach(b => b.style.display = 'none');
+
+      const canvas = await html2canvas(element, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: '#F7F5F2',
+        logging: false
+      });
+
+      // Show buttons back
+      buttons.forEach(b => b.style.display = 'block');
+
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const imgProps = pdf.getImageProperties(imgData);
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+      
+      const now = new Date();
+      const dateStr = now.toLocaleDateString() + ' ' + now.toLocaleTimeString();
+
+      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+      
+      // Add Footer with timestamp
+      pdf.setFontSize(10);
+      pdf.setTextColor(150);
+      pdf.text(`Documento generado para: ${state.personalInfo.name}`, 10, 285);
+      pdf.text(`Fecha de realización: ${dateStr}`, 10, 290);
+      pdf.text(`IA Factory Marco Logacho - Ajuste al Rol`, pdfWidth - 70, 290);
+
+      pdf.save(`Ajuste_Rol_${state.personalInfo.name.replace(/\s+/g, '_')}.pdf`);
+    } catch (err) {
+      console.error('PDF Generation Error:', err);
+      alert('Error al generar el PDF. Por favor intenta de nuevo.');
+    } finally {
+      btn.innerText = originalText;
+      btn.disabled = false;
+    }
+  };
+
   container.innerHTML = `
     <div class="form-step" style="max-width: 100%; text-align: center;">
       <div style="display: flex; flex-direction: column; align-items: center; gap: 1rem; margin-bottom: 2rem;">
@@ -421,9 +473,21 @@ const renderResults = () => {
         </div>
       </div>
       
-      <button class="btn-primary" id="survey-close" style="margin-top: 3rem; margin-bottom: 2rem;">Finalizar y Salir</button>
+      <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 3rem; margin-bottom: 2rem;">
+        <button class="btn-secondary" id="download-pdf" style="display: flex; align-items: center; gap: 0.5rem;">
+          <span>📄</span> Descargar PDF
+        </button>
+        <button class="btn-primary" id="survey-close">Finalizar y Salir</button>
+      </div>
     </div>
   `
+
+  setTimeout(() => {
+    document.getElementById('download-pdf')?.addEventListener('click', downloadResultsPDF);
+    document.getElementById('survey-close')?.addEventListener('click', () => {
+      document.getElementById('survey-modal')?.classList.remove('active')
+    });
+  }, 100);
 
   // 1. Radar Chart Setup
   const ctxE = (document.getElementById('expectationsChart') as HTMLCanvasElement).getContext('2d')
