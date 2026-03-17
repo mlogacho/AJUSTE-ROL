@@ -159,7 +159,7 @@ const renderSurveyStep = () => {
                 <tr>
                   <td>${v.label}</td>
                   <td style="font-size: 0.75rem; color: var(--text-muted); opacity: 0.8;">${v.def}</td>
-                  <td>
+                  <td data-label="Personal">
                     <input type="number" 
                       class="survey-input" 
                       data-id="${v.id}" 
@@ -168,7 +168,7 @@ const renderSurveyStep = () => {
                       ${!isPersonal ? 'disabled' : ''} 
                       min="0" max="100">
                   </td>
-                  <td>
+                  <td data-label="Realidad">
                     <input type="number" 
                       class="survey-input" 
                       data-id="${v.id}" 
@@ -177,7 +177,7 @@ const renderSurveyStep = () => {
                       ${!isReal ? 'disabled' : ''} 
                       min="0" max="100">
                   </td>
-                  ${isResults ? `<td class="diff-col ${diff < 0 ? 'negative-val' : ''}">${diff > 0 ? '+' : ''}${diff}</td>` : ''}
+                  ${isResults ? `<td data-label="Diferencia" class="diff-col ${diff < 0 ? 'negative-val' : ''}">${diff > 0 ? '+' : ''}${diff}</td>` : ''}
                 </tr>
               `
             }).join('')}

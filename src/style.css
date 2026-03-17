@@ -112,7 +112,7 @@ header {
 }
 
 .logo-img {
-  height: 120px;
+  height: clamp(60px, 10vw, 120px);
   width: auto;
   object-fit: contain;
 }
@@ -222,15 +222,17 @@ header {
 }
 
 .btn-cta {
-  font-size: 1.1rem;
-  padding: 1.6rem 3.8rem;
+  font-size: clamp(0.9rem, 4vw, 1.1rem);
+  padding: 1.2rem 2.5rem;
   display: flex;
   align-items: center;
-  gap: 1.2rem;
+  justify-content: center;
+  gap: 1rem;
   border-radius: 18px;
   background: var(--primary);
   box-shadow: 0 10px 30px rgba(167, 199, 163, 0.4);
   letter-spacing: 1px;
+  width: fit-content;
 }
 
 .btn-cta:hover {
@@ -809,4 +811,193 @@ footer {
   color: var(--text-main);
   font-size: 0.95rem;
   line-height: 1.6;
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+  header {
+    padding: 1rem;
+  }
+  
+  .glass-nav {
+    padding: 1rem 1.5rem;
+  }
+
+  .logo-text {
+    font-size: 0.9rem;
+  }
+
+  .nav-links {
+    gap: 1rem;
+  }
+
+  .status-pill {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+  }
+
+  .hero-section {
+    padding: 8rem 1.5rem 4rem;
+  }
+
+  .hero-content h1 {
+    font-size: clamp(2rem, 10vw, 3.5rem);
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    padding: 0 1.5rem;
+  }
+
+  .projects-container {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    padding: 0;
+  }
+
+  .talents-pool {
+    padding: 1rem;
+    gap: 0.5rem;
+  }
+
+  .talent-tag {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-links {
+    display: none; /* Hide nav links on small mobile */
+  }
+
+  .modal-content {
+    padding: 2.5rem 1.2rem;
+    margin: 10px;
+    border-radius: 20px;
+    width: calc(100% - 20px);
+  }
+
+  .rankings-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .survey-table, 
+  .survey-table thead, 
+  .survey-table tbody, 
+  .survey-table th, 
+  .survey-table td, 
+  .survey-table tr {
+    display: block;
+  }
+
+  .survey-table thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  .survey-table tr {
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    background: white;
+    padding: 1rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  }
+
+  .survey-table td {
+    border: none !important;
+    padding: 0.5rem 0 !important;
+    width: 100% !important;
+    text-align: left !important;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .survey-table td:first-child {
+    font-size: 1.1rem;
+    color: var(--primary);
+    border-bottom: 1px solid var(--bg-main) !important;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.8rem !important;
+  }
+
+  .survey-table td:nth-child(2) {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+    display: block;
+    line-height: 1.4;
+  }
+
+  .survey-table td[data-label]::before {
+    content: attr(data-label);
+    font-weight: 700;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-right: 1rem;
+  }
+
+  .survey-table td:nth-child(3),
+  .survey-table td:nth-child(4),
+  .survey-table td:nth-child(5) {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .survey-table input {
+    width: 80px;
+    font-size: 0.9rem;
+  }
+
+  .points-info {
+    font-size: 0.9rem;
+    padding: 1rem;
+    position: relative;
+    top: 0;
+  }
+
+  .chart-container {
+    height: 350px;
+  }
+
+  .results-grid {
+    gap: 1.5rem;
+  }
+
+  .btn-cta {
+    width: 100%;
+    padding: 1.4rem 2rem;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo-text {
+    display: none; 
+  }
+
+  .hero-content h1 {
+    font-size: 2.2rem;
+  }
+
+  .hero-content p {
+    font-size: 1rem;
+  }
+
+  .stat-value {
+    font-size: 2.2rem;
+  }
+
+  .modal-content h3 {
+    font-size: 1.25rem;
+  }
 }
