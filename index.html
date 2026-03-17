@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aceleración Carrera | Marco Logacho</title>
+    <meta name="description" content="Panel de control premium para el seguimiento de carrera profesional y proyectos de AWS." />
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Plus+Jakarta+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div id="app">
+      <div class="glass-bg"></div>
+      <div class="glow-sphere glow-1"></div>
+      <div class="glow-sphere glow-2"></div>
+      
+      <header>
+        <nav class="glass-nav">
+          <div class="logo">
+            <img src="/logo.jpg" alt="Logo" class="logo-img">
+            <span class="logo-text">ACELERACIÓN<b>CARRERA</b></span>
+          </div>
+          <ul class="nav-links">
+            <li><a href="#aws-status" class="status-pill"><span class="pulse"></span> AWS Activo</a></li>
+          </ul>
+        </nav>
+      </header>
+
+      <main>
+        <section class="hero-section">
+          <div class="hero-content">
+            <h1 class="animate-up">Formadores <span>Auténticos</span></h1>
+            <p class="animate-up delay-1">INSPIRAR-CONECTAR-TRANSFORMAR</p>
+            <div class="hero-actions animate-up delay-2">
+              <button class="btn-primary btn-cta" id="btn-survey">
+                <span class="btn-icon-large">🔥</span>
+                COMENZAR TEST DE AJUSTE AL ROL
+              </button>
+            </div>
+          </div>
+        </section>
+
+      </main>
+
+      <footer class="glass-footer">
+        <p>&copy; 2026 IA Factory Marco Logacho</p>
+      </footer>
+
+      <!-- Survey Modal -->
+      <div id="survey-modal" class="modal">
+        <div class="modal-content glass-card">
+          <button class="close-modal">&times;</button>
+          <div id="survey-container">
+            <!-- Dynamic content will be injected here -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
