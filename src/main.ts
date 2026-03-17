@@ -47,7 +47,7 @@ interface SurveyResponses {
 
 interface SurveyState {
   phase: 'info' | 'personal' | 'real' | 'results' | 'talents' | 'final';
-  personalInfo: { name: string; email: string; phone: string };
+  personalInfo: { name: string };
   responses: SurveyResponses;
   rankings: {
     personal: (string | null)[];
@@ -57,7 +57,7 @@ interface SurveyState {
 
 let state: SurveyState = {
   phase: 'info',
-  personalInfo: { name: '', email: '', phone: '' },
+  personalInfo: { name: '' },
   responses: surveyValues.reduce((acc, v) => ({ ...acc, [v.id]: { personal: 0, real: 0 } }), {}),
   rankings: {
     personal: Array(7).fill(null),
@@ -100,14 +100,6 @@ const renderSurveyStep = () => {
         <div class="form-group">
           <label>Nombre Completo *</label>
           <input type="text" id="survey-name" value="${state.personalInfo.name}" placeholder="Tu nombre...">
-        </div>
-        <div class="form-group">
-          <label>Correo Electrónico (Opcional)</label>
-          <input type="email" id="survey-email" value="${state.personalInfo.email}" placeholder="correo@ejemplo.com">
-        </div>
-        <div class="form-group">
-          <label>Teléfono (Opcional)</label>
-          <input type="tel" id="survey-phone" value="${state.personalInfo.phone}" placeholder="+593...">
         </div>
         <button class="btn-primary" id="survey-next-info">Comenzar Evaluación</button>
       </div>
@@ -653,9 +645,7 @@ const setupSurveyEvents = () => {
       const name = (document.getElementById('survey-name') as HTMLInputElement).value
       if (!name) return alert('Por favor, ingresa tu nombre.')
       state.personalInfo = {
-        name,
-        email: (document.getElementById('survey-email') as HTMLInputElement).value,
-        phone: (document.getElementById('survey-phone') as HTMLInputElement).value
+        name
       }
       state.phase = 'personal'
       renderSurveyStep()
@@ -696,7 +686,7 @@ const setupSurveyEvents = () => {
   document.getElementById('btn-survey')?.addEventListener('click', () => {
     state = { 
       phase: 'info', 
-      personalInfo: { name: '', email: '', phone: '' }, 
+      personalInfo: { name: '' }, 
       responses: surveyValues.reduce((acc, v) => ({ ...acc, [v.id]: { personal: 0, real: 0 } }), {}),
       rankings: {
         personal: Array(7).fill(null),
