@@ -30,7 +30,7 @@ ssh -i "$PEM_FILE" "$USER@$SERVER_IP" "sudo chown -R $USER:$USER /var/www/html/"
 # 3. Transferencia de archivos
 echo "📦 Transfiriendo archivos a /var/www/html/..."
 scp -i "$PEM_FILE" -r dist/* "$USER@$SERVER_IP:/var/www/html/"
-scp -i "$PEM_FILE" public/logo.jpg "$USER@$SERVER_IP:/var/www/html/logo.jpg"
+scp -i "$PEM_FILE" public/logo.png "$USER@$SERVER_IP:/var/www/html/logo.png"
 
 if [ $? -eq 0 ]; then
     echo "✅ Despliegue completado con éxito."

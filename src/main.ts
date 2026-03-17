@@ -465,7 +465,7 @@ const renderResults = () => {
   container.innerHTML = `
     <div class="form-step" style="max-width: 100%; text-align: center;">
       <div style="display: flex; flex-direction: column; align-items: center; gap: 1rem; margin-bottom: 2rem;">
-        <img src="/logo.jpg" alt="Logo" style="height: 60px;">
+        <img src="/logo.png" alt="Logo" style="height: 60px;">
         <h3>Diagnóstico Integral de Carrera</h3>
         <p>Hola <b>${state.personalInfo.name}</b>, aquí tienes el análisis detallado de tu perfil.</p>
       </div>
