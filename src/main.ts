@@ -397,37 +397,59 @@ const renderResults = () => {
 
     try {
       const element = document.getElementById('survey-container')!;
-      // Hide buttons for screenshot
+      
+      // Ocultar botones y elementos de interfaz para la captura
       const buttons = element.querySelectorAll('button');
-      buttons.forEach(b => b.style.display = 'none');
+      buttons.forEach(b => { if (b instanceof HTMLElement) b.style.visibility = 'hidden'; });
 
       const canvas = await html2canvas(element, {
-        scale: 2,
+        scale: 2, // Alta resolución
         useCORS: true,
         backgroundColor: '#F7F5F2',
-        logging: false
+        logging: false,
+        windowWidth: 1000 // Ancho fijo para consistencia en el renderizado
       });
 
-      // Show buttons back
-      buttons.forEach(b => b.style.display = 'block');
+      // Restaurar visibilidad
+      buttons.forEach(b => { if (b instanceof HTMLElement) b.style.visibility = 'visible'; });
 
       const imgData = canvas.toDataURL('image/png');
       const pdf = new jsPDF('p', 'mm', 'a4');
-      const imgProps = pdf.getImageProperties(imgData);
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
       
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+      
+      const imgProps = pdf.getImageProperties(imgData);
+      const margin = 10; // 10mm de margen
+      const contentWidth = pdfWidth - (2 * margin);
+      
+      // Calcular altura proporcional de la imagen
+      let renderWidth = contentWidth;
+      let renderHeight = (imgProps.height * renderWidth) / imgProps.width;
+
+      // Si la altura calculada supera el espacio disponible en la página, escalamos por altura
+      const maxAvailableHeight = pdfHeight - (2 * margin) - 15; // Espacio para cabecera/pie
+      if (renderHeight > maxAvailableHeight) {
+        renderHeight = maxAvailableHeight;
+        renderWidth = (imgProps.width * renderHeight) / imgProps.height;
+      }
+
+      // Centrar horizontalmente
+      const xOffset = (pdfWidth - renderWidth) / 2;
+      const yOffset = margin + 5;
+
       const now = new Date();
       const dateStr = now.toLocaleDateString() + ' ' + now.toLocaleTimeString();
 
-      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+      // Añadimos la imagen ajustada
+      pdf.addImage(imgData, 'PNG', xOffset, yOffset, renderWidth, renderHeight);
       
-      // Add Footer with timestamp
-      pdf.setFontSize(10);
-      pdf.setTextColor(150);
-      pdf.text(`Documento generado para: ${state.personalInfo.name}`, 10, 285);
-      pdf.text(`Fecha de realización: ${dateStr}`, 10, 290);
-      pdf.text(`IA Factory Marco Logacho - Ajuste al Rol`, pdfWidth - 70, 290);
+      // Pie de página profesional
+      pdf.setFontSize(9);
+      pdf.setTextColor(100);
+      pdf.text(`Diagnóstico de Ajuste al Rol - ${state.personalInfo.name}`, margin, pdfHeight - 10);
+      pdf.text(`Realizado: ${dateStr}`, margin, pdfHeight - 5);
+      pdf.text(`IA Factory Marco Logacho`, pdfWidth - margin - 45, pdfHeight - 5);
 
       pdf.save(`Ajuste_Rol_${state.personalInfo.name.replace(/\s+/g, '_')}.pdf`);
     } catch (err) {
