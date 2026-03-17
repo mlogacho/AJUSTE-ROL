@@ -445,11 +445,12 @@ const renderResults = () => {
       pdf.addImage(imgData, 'PNG', xOffset, yOffset, renderWidth, renderHeight);
       
       // Pie de página profesional
-      pdf.setFontSize(9);
-      pdf.setTextColor(100);
-      pdf.text(`Diagnóstico de Ajuste al Rol - ${state.personalInfo.name}`, margin, pdfHeight - 10);
+      pdf.setFontSize(7);
+      pdf.setFont('helvetica', 'normal');
+      pdf.setTextColor(120);
+      pdf.text(`Diagnóstico de Ajuste al Rol - ${state.personalInfo.name}`, margin, pdfHeight - 8);
       pdf.text(`Realizado: ${dateStr}`, margin, pdfHeight - 5);
-      pdf.text(`IA Factory Marco Logacho`, pdfWidth - margin - 45, pdfHeight - 5);
+      pdf.text(`IA Factory Marco Logacho`, pdfWidth - margin - 35, pdfHeight - 5);
 
       pdf.save(`Ajuste_Rol_${state.personalInfo.name.replace(/\s+/g, '_')}.pdf`);
     } catch (err) {
